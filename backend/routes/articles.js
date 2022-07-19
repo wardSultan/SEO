@@ -7,4 +7,6 @@ router.get("/", articleControl.fetchRandomData);
 router.get("/title/:articleTitle", articleControl.getArticleByTitle);
 //Get /articles/:keyWord
 router.get("/:keyWord", articleControl.getArticleByKeyWord);
+//Get /articles/category/:categoryName
+router.get("/category/:categoryName", articleControl.getArticleByCategory);
 module.exports = router;

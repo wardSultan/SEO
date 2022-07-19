@@ -31,6 +31,11 @@ exports.fetchRandomData = async (req, res, next) => {
         `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_922310613a9cc2ab1adb7856b1cf7a18ea4b`
       )
       .then((resp) => {
+        if (!resp) {
+          const error = new Error("no article found");
+          error.statusCode = httpStatus.NOT_FOUND;
+          throw error;
+        }
         resp.data.results.forEach((element) => {
           if (
             element.title != null &&
@@ -60,14 +65,21 @@ exports.fetchRandomData = async (req, res, next) => {
       });
   }
   // response with articles which fetched
-  Articles.find().then((articles) => {
-    if (!articles) {
-      const error = new Error(`No Article found `);
-      error.statusCode = httpStatus.NOT_FOUND;
-      throw error;
-    }
-    res.status(httpStatus.OK).json(articles);
-  });
+  Articles.find()
+    .then((articles) => {
+      if (!articles) {
+        const error = new Error(`No Article found `);
+        error.statusCode = httpStatus.NOT_FOUND;
+        throw error;
+      }
+      res.status(httpStatus.OK).json(articles);
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+      }
+      next(err);
+    });
 };
 
 exports.getArticleByTitle = (req, res, next) => {
@@ -111,4 +123,23 @@ exports.getArticleByKeyWord = (req, res, next) => {
         next(err);
       });
   }
+};
+
+exports.getArticleByCategory = (req, res, next) => {
+  const categoryName = req.params.categoryName;
+  Articles.find({ category: categoryName })
+    .then((article) => {
+      if (!article || article == "") {
+        const error = new Error("no article found");
+        error.statusCode = httpStatus.NOT_FOUND;
+        throw error;
+      }
+      res.status(httpStatus.OK).json({ article: article });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+      }
+      next(err);
+    });
 };
