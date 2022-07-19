@@ -83,3 +83,27 @@ exports.getArticleByTitle = (req, res, next) => {
       next(err);
     });
 };
+
+exports.getArticleByKeyWord = (req, res, next) => {
+  const keyWords = req.params.keyWord;
+  const keyWordsSplit = keyWords.split(" ");
+  for (let keyWordSplit of keyWordsSplit) {
+    Articles.find({ keyWords: keyWordSplit })
+      .then((article) => {
+        if (!article || article == "") {
+          const error = new Error(
+            `No Article found with ${keyWordsSplit} Key Word`
+          );
+          error.statusCode = httpStatus.NOT_FOUND;
+          throw error;
+        }
+        res.status(httpStatus.OK).json({ article: article });
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+        }
+        next(err);
+      });
+  }
+};
