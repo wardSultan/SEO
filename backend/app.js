@@ -5,7 +5,7 @@ const httpStatus = require("./util/httpStatus");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const indexRouter = require("./routes/index");
+const indexRouter = require("./routes/articles");
 const usersRouter = require("./routes/auth");
 
 const app = express();
