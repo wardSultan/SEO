@@ -1,0 +1,66 @@
+const Articles = require("../model/articles");
+const httpStatus = require("../util/httpStatus");
+const axios = require("axios");
+
+exports.fetchRandomData = async (req, res, next) => {
+  //At each fetch of the articles, old articles are deleted, so that they do not become overwrite
+  await Articles.find()
+    .then((articles) => {
+      if (articles) {
+        articles.forEach((article) => {
+          Articles.findById(article.id).then((result) => {
+            if (!result) {
+              return next(new Error("Article not found."));
+            }
+            return Articles.deleteOne({ _id: article.id });
+          });
+        });
+      }
+    })
+    .catch((err) => {
+      res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: "Deleting product failed" });
+    });
+
+  //fetch articles from a free API , and store it in the database..
+  const pages = ["1", "2", "3", "4", "5"];
+  for (let page of pages) {
+    await axios
+      .get(
+        `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_93165dc4489da515433821143e761d0ccefa`
+      )
+      .then((resp) => {
+        resp.data.results.forEach((element) => {
+          if (
+            element.title != null &&
+            element.description != null &&
+            element.image_url != null &&
+            element.category != null &&
+            element.pubDate != null
+          ) {
+            const keyWords = element.title.split(" ");
+            const article = new Articles({
+              title: element.title,
+              description: element.description,
+              image_url: element.image_url,
+              category: element.category[0],
+              pubDate: element.pubDate,
+              keyWords: keyWords,
+            });
+            article.save();
+          }
+        });
+      })
+      .catch((err) => {
+        if (!err.statusCode) {
+          err.statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+        }
+        next(err);
+      });
+  }
+  // response with articles which fetched
+  Articles.find().then((articles) => {
+    res.status(httpStatus.OK).json(articles);
+  });
+};

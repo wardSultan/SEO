@@ -1,6 +1,6 @@
-const con = require("../controllers/articles");
+const articlControl = require("../controllers/articles");
 const router = require("express").Router();
 const Articles = require("../model/articles");
-/* GET users listing. */
-
+// GET: /articles
+router.get("/", articlControl.fetchRandomData);
 module.exports = router;

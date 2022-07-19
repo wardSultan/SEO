@@ -10,6 +10,7 @@ const articlesRouter = require("./routes/articles");
 
 const app = express();
 const MONGODB_URI = "mongodb://localhost:27017/ward";
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
