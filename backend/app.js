@@ -5,8 +5,8 @@ const httpStatus = require("./util/httpStatus");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const indexRouter = require("./routes/articles");
 const usersRouter = require("./routes/auth");
+const articlesRouter = require("./routes/articles");
 
 const app = express();
 const MONGODB_URI = "mongodb://localhost:27017/ward";
@@ -26,7 +26,9 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-type,Authorization");
   next();
 });
+
 app.use("/", usersRouter);
+app.use("/articles", articlesRouter);
 
 // error handler
 app.use((error, req, res, next) => {
