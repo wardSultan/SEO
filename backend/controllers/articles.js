@@ -64,3 +64,22 @@ exports.fetchRandomData = async (req, res, next) => {
     res.status(httpStatus.OK).json(articles);
   });
 };
+
+exports.getArticleByTitle = (req, res, next) => {
+  const articleTitle = req.params.articleTitle;
+  Articles.find({ title: articleTitle })
+    .then((article) => {
+      if (!article || article == "") {
+        const error = new Error(`No Article found with ${articleTitle} title`);
+        error.statusCode = httpStatus.NOT_FOUND;
+        throw error;
+      }
+      res.status(httpStatus.OK).json({ article: article });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = httpStatus.NOT_FOUND;
+      }
+      next(err);
+    });
+};

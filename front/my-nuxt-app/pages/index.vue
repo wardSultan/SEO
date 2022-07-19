@@ -1,5 +1,3 @@
-./pages/index.vue -->
-
 <template>
   <div>
     <section class="hero is-medium is-dark is-bold">
