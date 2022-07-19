@@ -33,6 +33,88 @@
               </li>
             </ul>
             <div class="row" style="margin-right: 40%">
+              <ul class="col-4" @submit.prevent="Pet">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle btn btn-primary"
+                    href="#"
+                    role="button"
+                    style="margin-left: 70%; height: 125%"
+                    data-bs-toggle="dropdown"
+                    >category</a
+                  >
+                  <ul class="dropdown-menu">
+                    <li>
+                      <nuxt-link type="button" class="btn btn-dark" :to="`/`">
+                        all</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/top`"
+                      >
+                        top</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/sports`"
+                      >
+                        sports</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/entertainment`"
+                      >
+                        entertainment</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/technology`"
+                      >
+                        technology</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/science`"
+                      >
+                        science</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/health`"
+                      >
+                        health</nuxt-link
+                      >
+                    </li>
+                    <li>
+                      <nuxt-link
+                        type="button"
+                        class="btn btn-dark"
+                        :to="`/category/business`"
+                      >
+                        business</nuxt-link
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
               <form
                 class="d-flex col-8"
                 @submit.prevent="handlePressEnterSearch"
@@ -42,6 +124,7 @@
                   type="text"
                   v-model="user.Search"
                   id="myInput"
+                  style="height: 69%"
                   required
                   @keyup.enter="handlePressEnterSearch"
                 />
