@@ -4,6 +4,9 @@
 
 <script>
 export default {
+  head: {
+    title: "404",
+  },
   fetch({ redirect }) {
     return redirect("/404");
   },

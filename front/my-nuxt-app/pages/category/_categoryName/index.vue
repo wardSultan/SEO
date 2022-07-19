@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div class="column" v-for="article in article.article" :key="article._id">
+    <h1 v-if="article.message">No Article Found! Please try later...</h1>
+    <div
+      class="column"
+      v-else
+      v-for="article in article.article"
+      :key="article._id"
+    >
       <div class="container">
         <div class="col-md-12">
           <div class="card b-1 hover-shadow mb-20">
@@ -51,36 +57,25 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  async asyncData({ error, params }) {
+  head: {
+    title: "category",
+  },
+  async asyncData({ params }) {
     try {
       let article = await fetch(
-        `http://localhost:8000/articles/${params.keyWord}`
+        `http://localhost:8000/articles/category/${params.categoryName}`
       )
         .then((res) => res.json())
         .then((data) => data);
-
-      if (!article.article) window.location.href = "/404";
       return { article };
     } catch (e) {
-      if (err.response.status === 404) {
-        return redirect(301, "/404");
-      }
+      console.error("SOMETHING WENT WRONG :" + e);
+      return {
+        article: [],
+      };
     }
-  },
-  head() {
-    return {
-      title: "Search",
-      meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: this.article.description,
-        },
-      ],
-    };
   },
 };
 </script>

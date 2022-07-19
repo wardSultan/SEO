@@ -9,7 +9,7 @@
             <img
               class="rounded-circle"
               src="./kisi-standard.png"
-              alt="Logo: an image of a doggy biting a juicy bone!"
+              alt="kisi.."
               style="margin-top: 17px"
           /></a>
           <button
