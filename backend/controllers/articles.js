@@ -28,7 +28,7 @@ exports.fetchRandomData = async (req, res, next) => {
   for (let page of pages) {
     await axios
       .get(
-        `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_922310613a9cc2ab1adb7856b1cf7a18ea4b`
+        `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_9350605de7ef19cdea4752c11b93715bfcb9`
       )
       .then((resp) => {
         if (!resp) {
