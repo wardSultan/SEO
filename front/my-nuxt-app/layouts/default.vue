@@ -33,7 +33,10 @@
               </li>
             </ul>
             <div class="row" style="margin-right: 40%">
-              <form class="d-flex col-8" @submit.prevent="handleSubmit">
+              <form
+                class="d-flex col-8"
+                @submit.prevent="handlePressEnterSearch"
+              >
                 <input
                   class="form-control me-2"
                   type="text"
