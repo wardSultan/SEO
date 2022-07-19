@@ -4,7 +4,7 @@ const axios = require("axios");
 
 exports.fetchRandomData = async (req, res, next) => {
   //At each fetch of the articles, old articles are deleted, so that they do not become overwrite
-  await Articles.find()
+  Articles.find()
     .then((articles) => {
       if (articles) {
         articles.forEach((article) => {
