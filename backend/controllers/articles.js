@@ -28,7 +28,7 @@ exports.fetchRandomData = async (req, res, next) => {
   for (let page of pages) {
     await axios
       .get(
-        `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_93165dc4489da515433821143e761d0ccefa`
+        `https://newsdata.io/api/1/news?page=${page}&country=us&apikey=pub_922310613a9cc2ab1adb7856b1cf7a18ea4b`
       )
       .then((resp) => {
         resp.data.results.forEach((element) => {
@@ -61,6 +61,11 @@ exports.fetchRandomData = async (req, res, next) => {
   }
   // response with articles which fetched
   Articles.find().then((articles) => {
+    if (!articles) {
+      const error = new Error(`No Article found `);
+      error.statusCode = httpStatus.NOT_FOUND;
+      throw error;
+    }
     res.status(httpStatus.OK).json(articles);
   });
 };
