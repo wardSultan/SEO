@@ -40,6 +40,7 @@
                   v-model="user.Search"
                   id="myInput"
                   required
+                  @keyup.enter="handlePressEnterSearch"
                 />
 
                 <NuxtLink
@@ -124,6 +125,15 @@ export default {
     };
   },
   methods: {
+    handlePressEnterSearch() {
+      var input = document.getElementById("myInput");
+      input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          document.getElementById("myBtn").click();
+        }
+      });
+    },
     async uploadPet() {
       let formData = { name: "", email: "", FavoriteCategory: "" };
       for (let data in this.user) {
