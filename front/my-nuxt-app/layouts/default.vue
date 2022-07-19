@@ -32,6 +32,26 @@
                 >
               </li>
             </ul>
+            <div class="row" style="margin-right: 40%">
+              <form class="d-flex col-8" @submit.prevent="handleSubmit">
+                <input
+                  class="form-control me-2"
+                  type="text"
+                  v-model="user.Search"
+                  id="myInput"
+                  required
+                />
+
+                <NuxtLink
+                  class="btn btn-primary col-4"
+                  style="margin-top: 5px; max-height: 37px"
+                  id="myBtn"
+                  :to="`/Search/${user.Search}`"
+                  exact
+                  >Search</NuxtLink
+                >
+              </form>
+            </div>
           </div>
         </div>
       </nav>
@@ -99,6 +119,7 @@ export default {
         name: "",
         email: "",
         FavoriteCategory: "",
+        Search: "",
       },
     };
   },
