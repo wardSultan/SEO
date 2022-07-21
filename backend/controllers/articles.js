@@ -3,6 +3,7 @@ const httpStatus = require("../util/httpStatus");
 const axios = require("axios");
 
 exports.fetchRandomData = async (req, res, next) => {
+  function myFunc(arg) {
   //At each fetch of the articles, old articles are deleted, so that they do not become overwrite
   Articles.find()
     .then((articles) => {
@@ -64,6 +65,9 @@ exports.fetchRandomData = async (req, res, next) => {
         next(err);
       });
   }
+}
+//86,400,000 => 24 Hours => one day
+setTimeout(myFunc, 86400000, "funky");
   // response with articles which fetched
   Articles.find()
     .then((articles) => {
@@ -82,6 +86,7 @@ exports.fetchRandomData = async (req, res, next) => {
     });
 };
 
+// get Article By Title
 exports.getArticleByTitle = (req, res, next) => {
   const articleTitle = req.params.articleTitle;
   Articles.find({ title: articleTitle })
